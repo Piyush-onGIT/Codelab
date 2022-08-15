@@ -1,5 +1,5 @@
 /** author: kicker
-*   time: 19-06-2022 13:14
+*   created: 14-08-2022 00:22
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -23,45 +23,27 @@ typedef long long ll;
 #define pqMin priority_queue<int, vector<int>, greater<int>>
 const int INF = int(2e9) + 99;
 
-ll pairwise(vll per) {
-    ll ans = INT_MIN;
-    loop(i, 0, per.size() - 1) {
-        ll t = per[i] ^ per[i + 1];
-        ans = max(ans, t);
-    }
-    return ans;
-}
+template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](T x){ return x==a[0]; }); }
+template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
+template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
 void solve() {
-    ll n;
-    cin >> n;
-    if (n >= 4) {
-        vll per(n);
-        vll ans;
-        loop(i, 0, n) per[i] = i;
+    ll n, k;
+    cin >> n >> k;
+    ll per[n];
 
-        ll p1 = 0, p2 = 1, x = per[0] ^ per[1];
-        loop(i, 0, n - 1) {
-            ll t = per[i] ^ per[i + 1];
-            if (t > x) {
-                p1 = i, p2 = i + 1;
-                x = t;
-            }
-        }
-
-        loop(i, 1, n) {
-            if (i == p1) {
-                ans.pb(per[i]);
-                ans.pb(0);
-            }
-            else ans.pb(per[i]);
-        }
-        loop(i, 0, n) cout << ans[i] << " ";
-        cout line;
+    loop(i, 0, n) cin >> per[i];
+    
+    ll c = 0;
+    if (n == k) {
+        cout << 0 line;
+        return;
     }
-    else if (n == 1) cout << 0 line;
-    else if (n == 2) cout << "0 1\n";
-    else cout << "2 0 1\n";
+    loop(i, 0, k) {
+        if (per[i] > k) c++;
+    }
+
+    cout << c line;
 }
 
 int main() {

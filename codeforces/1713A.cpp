@@ -1,5 +1,5 @@
 /** author: kicker
-*   time: 19-06-2022 13:14
+*   created: 07-08-2022 13:34
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -23,45 +23,39 @@ typedef long long ll;
 #define pqMin priority_queue<int, vector<int>, greater<int>>
 const int INF = int(2e9) + 99;
 
-ll pairwise(vll per) {
-    ll ans = INT_MIN;
-    loop(i, 0, per.size() - 1) {
-        ll t = per[i] ^ per[i + 1];
-        ans = max(ans, t);
-    }
-    return ans;
-}
+template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](T x){ return x==a[0]; }); }
+template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
+template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
 void solve() {
     ll n;
     cin >> n;
-    if (n >= 4) {
-        vll per(n);
-        vll ans;
-        loop(i, 0, n) per[i] = i;
-
-        ll p1 = 0, p2 = 1, x = per[0] ^ per[1];
-        loop(i, 0, n - 1) {
-            ll t = per[i] ^ per[i + 1];
-            if (t > x) {
-                p1 = i, p2 = i + 1;
-                x = t;
-            }
-        }
-
-        loop(i, 1, n) {
-            if (i == p1) {
-                ans.pb(per[i]);
-                ans.pb(0);
-            }
-            else ans.pb(per[i]);
-        }
-        loop(i, 0, n) cout << ans[i] << " ";
-        cout line;
+    ll ans = 0;
+    vll x1, x2, y1, y2;
+    while (n--) {
+    	ll a, b;
+    	cin >> a >> b;
+    	if (a == 0) {
+    		if (b < 0) x2.pb(abs(b));
+    		else x1.pb(b);
+    	}
+    	else {
+    		if (a < 0) y2.pb(abs(a));
+    		else y1.pb(a);
+    	}
     }
-    else if (n == 1) cout << 0 line;
-    else if (n == 2) cout << "0 1\n";
-    else cout << "2 0 1\n";
+
+    sort(all(x1));
+    sort(all(x2));
+    sort(all(y1));
+    sort(all(y2));
+
+    if (x1.size() != 0) ans += x1[x1.size() - 1] * 2;
+    if (x2.size() != 0) ans += x2[x2.size() - 1] * 2;
+    if (y1.size() != 0) ans += y1[y1.size() - 1] * 2;
+    if (y2.size() != 0) ans += y2[y2.size() - 1] * 2;
+
+    cout << ans line;
 }
 
 int main() {

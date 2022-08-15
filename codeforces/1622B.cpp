@@ -1,5 +1,5 @@
 /** author: kicker
-*   created: 23-07-2022 15:59
+*   created: 15-08-2022 00:18
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -27,48 +27,52 @@ template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](
 template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
 template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
-bool isPrime(int n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
- 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
- 
-    for (int i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
- 
-    return true;
-}
-
 void solve() {
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
+    ll a[n];
+    loop(i, 0, n) cin >> a[i];
+    
+    string vote;
+    cin >> vote;
 
-    if (!isPrime(m)) {
-        if (m % n == 0) {
-            cout << m << " " << n line;
-            return;
-        }
-        ll a = ceil(m / (double) n);
-        cout << a << " " << a * (n) line;
+    ll zero = 0, one = 0;
+    loop(i, 0, n) {
+    	if (vote[i] == '0') zero++;
+    	else one++;
     }
-    else {
-        if (m != 2) {
-            if (m % n == 0) {
-                cout << m << " " << n line;
-                return;
-            }
-            ll a = m / n;
-            cout << a << " " << a * (n + 1) line;
-        }
-        else {
-            cout << n << " " << m line;
-        }
+
+    set<ll> like, dislike;
+    loop(i, 0, zero) dislike.insert(i + 1);
+    loop(i, 0, one) like.insert(i + 1 + zero);
+
+    vll per(n);
+    loop(i, 0, n) {
+    	if (vote[i] == '0') {
+    		ll mn = *dislike.begin(), mx = *dislike.rbegin();
+    		if (a[i] >= mn && a[i] <= mx) {
+    			per[i] = a[i];
+    			dislike.erase(a[i]);
+    		}
+    		else {
+    			per[i] = mx;
+    			dislike.erase(mx);
+    		}
+    	}
+    	else {
+    		ll mn = *(like.begin()), mx = *like.rbegin();
+    		if (a[i] >= mn && a[i] <= mx) {
+    			per[i] = a[i];
+    			like.erase(a[i]);
+    		}
+    		else {
+    			per[i] = *(like.begin());
+    			like.erase(like.begin());
+    		}
+    	}
     }
+    loop(i, 0, n) cout << per[i] << " ";
+    cout line;
 }
 
 int main() {

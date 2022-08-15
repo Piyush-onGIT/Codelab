@@ -1,5 +1,5 @@
 /** author: kicker
-*   created: 23-07-2022 15:59
+*   created: 11-08-2022 20:09
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -27,47 +27,67 @@ template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](
 template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
 template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
-bool isPrime(int n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
- 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
- 
-    for (int i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
- 
-    return true;
-}
-
 void solve() {
-    ll n, m;
-    cin >> n >> m;
+    ll n, a, b;
+    cin >> n >> a >> b;
+    string s;
+    cin >> s;
 
-    if (!isPrime(m)) {
-        if (m % n == 0) {
-            cout << m << " " << n line;
-            return;
-        }
-        ll a = ceil(m / (double) n);
-        cout << a << " " << a * (n) line;
+    char c = s[0];
+    vll blocks;
+    ll count = 1;
+    loop(i, 1, n) {
+    	if (s[i] != c) {
+    		blocks.pb(count);
+    		count = 1;
+    		c = s[i];
+    	}
+    	else count++;
+    }
+    blocks.pb(count);
+
+    if (b >= 0) {
+    	cout << n * (a + b) line;
     }
     else {
-        if (m != 2) {
-            if (m % n == 0) {
-                cout << m << " " << n line;
-                return;
-            }
-            ll a = m / n;
-            cout << a << " " << a * (n + 1) line;
-        }
-        else {
-            cout << n << " " << m line;
-        }
+    	ll score = 0;
+    	ll n1 = blocks.size();
+    	if (n1 == 1) {
+    		score = a * n + b;
+    	}
+    	else if (n1 == 2) {
+    		score = a * blocks[0] + b;
+    		score += a * blocks[1] + b;
+    	}
+    	else if (n1 == 3) {
+    		score = a * blocks[1] + b;
+    		score += a * (blocks[0] + blocks[2]) + b;
+    	}
+    	else {
+			ll i = 1;
+	    	while (blocks.size() > 3) {
+				vll::iterator itr = blocks.begin();
+	    		score += a * blocks[i] + b;
+	    		blocks[i] = blocks[i - 1] + blocks[i + 1];
+
+	    		itr++; itr++;
+	    		blocks.erase(itr);
+	    		blocks.erase(blocks.begin());
+	    	}
+
+	    	if (blocks.size() == 1) {
+    			score += a * blocks.size() + b;
+	    	}
+	    	else if (blocks.size() == 2) {
+	    		score += a * blocks[0] + b;
+	    		score += a * blocks[1] + b;
+	    	}
+	    	else {
+	    		score += a * blocks[1] + b;
+	    		score += a * (blocks[0] + blocks[2]) + b;
+	    	}
+    	}
+    	cout << score line;
     }
 }
 

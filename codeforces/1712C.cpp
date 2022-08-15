@@ -1,5 +1,5 @@
 /** author: kicker
-*   created: 23-07-2022 15:59
+*   created: 14-08-2022 11:54
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -27,48 +27,50 @@ template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](
 template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
 template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
-bool isPrime(int n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
- 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
- 
-    for (int i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
- 
-    return true;
+bool there(vll a, ll n) {
+    loop(i, 0, a.size()) if (a[i] == n) return true;
+    return false;
+}
+
+ll freq(ll a[], ll n) {
+    ll c = 0;
+    loop(i, 0, n) if (a[i] == n) c++;
+    return c;
 }
 
 void solve() {
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
+    set<ll> dist;
+    ll a[n];
+    loop(i, 0, n) cin >> a[i];
 
-    if (!isPrime(m)) {
-        if (m % n == 0) {
-            cout << m << " " << n line;
-            return;
-        }
-        ll a = ceil(m / (double) n);
-        cout << a << " " << a * (n) line;
-    }
-    else {
-        if (m != 2) {
-            if (m % n == 0) {
-                cout << m << " " << n line;
-                return;
+    loop(i, 0, n - 1) {
+        if (dist.count(a[i])) {
+            a[i] = 0;
+            rrep(j, i - 1, 0) {
+                if (a[j] == 0) break;
+                dist.insert(a[j]);
             }
-            ll a = m / n;
-            cout << a << " " << a * (n + 1) line;
         }
-        else {
-            cout << n << " " << m line;
+        if (dist.count(a[i + 1])) {
+            a[i + 1] = 0;
+            rrep(j, i, 0) {
+                if (a[j] == 0) break;
+                dist.insert(a[j]);
+            }
+        }
+        if (a[i] > a[i + 1]) {
+            dist.insert(a[i]);
+            a[i] = 0;
+            rrep(j, i - 1, 0) {
+                if (a[j] == 0) break;
+                dist.insert(a[j]);
+            }
         }
     }
+
+    cout << dist.size() line;
 }
 
 int main() {

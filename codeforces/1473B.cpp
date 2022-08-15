@@ -1,5 +1,5 @@
 /** author: kicker
-*   created: 23-07-2022 15:59
+*   created: 15-08-2022 11:13
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -27,47 +27,57 @@ template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](
 template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
 template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
 
-bool isPrime(int n)
-{
-    if (n <= 1)
-        return false;
-    if (n <= 3)
-        return true;
- 
-    if (n % 2 == 0 || n % 3 == 0)
-        return false;
- 
-    for (int i = 5; i * i <= n; i = i + 6)
-        if (n % i == 0 || n % (i + 2) == 0)
-            return false;
- 
-    return true;
+ll lcm(ll a, ll b) {
+	if (a == b) return a;
+	ll x = max(a, b);
+	ll y = min(a, b);
+
+	for (ll i = x; ; i += x) {
+		if (i % y == 0) return i;
+	}
+}
+
+bool equal(string s) {
+	loop(i, 0, s.size() - 1) if (s[i] != s[i + 1]) return false;
+	return true;
 }
 
 void solve() {
-    ll n, m;
-    cin >> n >> m;
+    string s, t;
+    cin >> s >> t;
 
-    if (!isPrime(m)) {
-        if (m % n == 0) {
-            cout << m << " " << n line;
-            return;
-        }
-        ll a = ceil(m / (double) n);
-        cout << a << " " << a * (n) line;
+    string min, max;
+    if (s.size() < t.size()) {
+    	min = s;
+    	max = t;
     }
     else {
-        if (m != 2) {
-            if (m % n == 0) {
-                cout << m << " " << n line;
-                return;
-            }
-            ll a = m / n;
-            cout << a << " " << a * (n + 1) line;
+    	min = t;
+    	max = s;
+    }
+
+    if (equal(min)) {
+    	if (equal(max) && min[0] == max[0]) {
+    		ll l = lcm(s.size(), t.size());
+    		loop(i, 0, l) cout << min[0];
+    		cout line;
+    	}
+    	else cout << -1 line;
+    }
+    else {
+        ll l = lcm(max.size(), min.size());
+        ll l1 = l / min.size(), l2 = l / max.size();
+        string min1 = "", max1;
+
+        loop(i, 0, l1) {
+            loop(j, 0, min.size()) min1 += min[j];
         }
-        else {
-            cout << n << " " << m line;
+        loop(i, 0, l2) {
+            loop(j, 0, max.size()) max1 += max[j];
         }
+
+        if (min1 == max1) cout << min1 line;
+        else cout << -1 line;
     }
 }
 
