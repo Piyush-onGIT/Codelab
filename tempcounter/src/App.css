@@ -1,0 +1,42 @@
+.display {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7em;
+  background-color: gray;
+  height: 400px;
+  width: 300px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.frame {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  width: 70%;
+  height: 14em;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 150px 150px 150px 150px;
+}
+
+.temp {
+  margin-top: 1.45em;
+  font-size: 50px;
+}
+
+.btns {
+  display: flex;
+}
+
+.btns > div {
+  padding: 50px;
+}
+
+.left {
+  /* float: left; */
+}
+
+.right {
+  /* float: right; */
+}

@@ -1,90 +1,57 @@
 /** author: kicker
-*   created: 24-07-2022 12:37
+*   created: 23-09-2022 20:32
 **/
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-#define line << endl
-#define loop(i, x, n) for (long long i = x; i < n; i++)
-#define rep(i, x, n) for (int i = x; i < n; i++)
-#define rrep(i, x, n) for (long long i = x; i >= n; i--)
-#define f first
-#define s second
-#define all(x) x.begin(), x.end()
-#define vi vector<int>
-#define vs vector<string>
-#define vll vector<long long>
-#define pb push_back
-#define vii vector<int64_t>
-#define vc vector<char>
-#define si set<int>
-#define mii map<int, int>
-#define pqMax priority_queue<int>
-#define pqMin priority_queue<int, vector<int>, greater<int>>
-const int INF = int(2e9) + 99;
+typedef long long                           ll;
+#define line                                << "\n"
+#define sep                                 << " " <<
+#define sp                                  << " "
+#define loop(i, x, n)                       for (ll i = x; i < n; i++)
+#define rrep(i, x, n)                       for (ll i = x; i >= n; i--)
+#define f                                   first
+#define s                                   second
+#define all(x)                              x.begin(), x.end()
+#define dsort(x)                            sort(all(x), greater<ll>())
+#define vi                                  vector<int>
+#define vs                                  vector<string>
+#define vll                                 vector<long long>
+#define pb                                  push_back
+#define pf                                  push_front
+#define vc                                  vector<char>
+#define sll                                 set<ll>
+#define mll                                 map<ll, ll>
+#define pqMax                               priority_queue<ll>
+#define pqMin                               priority_queue<int, vector<ll>, greater<ll>>
+
 
 template <typename T> bool _equal(T a[], ll n) { return std::all_of(a, a+n, [a](T x){ return x==a[0]; }); }
 template <typename T> T aMax(T a[], T n) { T mx = a[0]; loop(i, 0, n) mx = max(mx, a[i]); return mx; }
 template <typename T> T aMin(T a[], T n) { T mn = a[0]; loop(i, 0, n) mn = min(mn, a[i]); return mn; }
-
-ll ceilingNum(vll arr, ll target) {
-    ll start = 0, end = arr.size() - 1;
-    ll mid;
-    if (target > arr[arr.size() - 1]) return -1;         // no ceiling found
-    while (start <= end) {
-        mid = start + (end - start)/2;          // to make sure it can't go out of int limit
-        if (arr[mid] == target) return mid;     // element found
-        else if (arr[mid] > target) {           // element lies in the left side of mid
-            end = mid - 1;
-        }
-        else {
-            start = mid + 1;                    // element lies in the right side of mid
-        }
-    }
-    return start;                          // start will be poiting to ceiling of number
-    // in the end start will be pointing to the number which is just greater than the target
-}
+template <typename T> void parr(T a[], ll n) { loop(i, 0, n) cout << a[i] << " "; cout line; }
+template <typename T> void print(vector<T> v) { loop(i, 0, v.size()) cout << v[i] << " "; cout line; }
 
 void solve() {
     ll n;
     cin >> n;
-    vll a(n);
-    loop(i, 0, n) cin >> a[i];
-
-    vll b = a;
-    sort(all(b));
-
-    map<ll, vll> ind;
-    loop(i, 0, n) {
-        ind[a[i]].pb(i);
+    if (n <= 3) cout << -1 line;
+    else if (n == 4) {
+        cout << 3 sep 1 sep 4 sep 2 line;
     }
+    else {
+        vll p;
+        loop(i, 0, n) p.pb(i + 1);
 
-    map<ll, vll>::iterator i = ind.begin();
-    vll ocur = i -> s;
-    i++;
-    for (i; i != ind.end(); i++) {
-        ll ceil = ceilingNum(i -> s, ocur[ocur.size() - 1]);
-        if (ceil == -1) {
-            ocur.insert(ocur.end(), all(i -> s));
+        vll o, e;
+        loop(i, 1, n + 1) {
+            if (i % 2) o.pb(i);
+            else e.pb(i);
         }
-        else {
-            loop(j, ceil, (i -> s).size()) ocur.pb((i -> s)[j]);
-            loop(j, 0, ceil) ocur.pb((i -> s)[j]);
-        }
+
+        loop(i, 0, o.size()) cout << o[i] sp;
+        loop(i, 0, e.size()) cout << e[i] sp;
+        cout line;
     }
-
-    ll s = 0, e = 1;
-    while (e < n) {
-        if (ocur[s] > ocur[e]) break;
-        s++; e++;
-    }
-
-    vll left, right;
-    loop(i, 0, s + 1) left.pb(ocur[i]);
-    loop(i, e, n) right.pb(ocur[i]);
-
-    if (is_sorted(all(left)) && is_sorted(all(right))) cout << "YES\n";
-    else cout << "NO\n";
 }
 
 int main() {
