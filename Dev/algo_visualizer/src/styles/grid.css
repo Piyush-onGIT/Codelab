@@ -1,0 +1,12 @@
+table tr td{
+    background-color: rgb(255, 255, 255);
+    height: 50px;
+    width: 50px;
+    border: 2px rgb(198, 198, 198) solid;
+    transition: background-color 1s ease;
+    cursor: pointer;
+}
+
+.game {
+    display: flex;
+}
